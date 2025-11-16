@@ -6,5 +6,5 @@ const userSchema = new mongoose.Schema({
     email: {type: String, required: true, trim: true, unique: true, lowercase: true, maxlength: 254},
     passwordHash: {type: String, required: true},
 }, {timestamps: true});
-
+//here is the comment for testing GA
 module.exports = mongoose.model('User', userSchema);
