@@ -4,10 +4,10 @@ const app = require('../../server');
 describe('POST /api/auth/signup', () => {
   it('should create a new user and return public profile', async () => {
     const userData = {
-      name: "Aliceee",
-      username: "alice12345e",
-      email: "aliceee@example.com",
-      password: "Secret12345!"
+      name: "Arisu",
+      username: "arisu12345e",
+      email: "arisu@example.com",
+      password: "Secrett12345!"
     };
 
     const res = await request(app)
