@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - '**.js'
+      - "**/*.js"
 
 jobs:
   test:
@@ -26,15 +26,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Use Node.js 24
+      - name: Use Node.js 20   # Node 24 is not fully stable yet in Actions
         uses: actions/setup-node@v3
         with:
-          node-version: 24
+          node-version: 20
+          cache: 'npm'
 
       - name: Install dependencies
-        working-directory: pace_696A
-        run: npm install
+        working-directory: ./pace_696A
+        run: npm ci   # faster + clean install for CI
 
-      - name: Run tests
-        working-directory: pace_696A
-        run: npm test
+      - name: Set environment variables
+        working-directory: ./pace_696A
+        run: |
+          echo "MONGO_URI=mongodb://localhost:27017/testdb" >> .env
+          echo "PORT=8000" >> .env
+
+      - name: Run tests with open handle detection
+        working-directory: ./pace_696A
+        run: npm test -- --detectOpenHandles
