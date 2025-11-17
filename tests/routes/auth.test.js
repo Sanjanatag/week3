@@ -1,17 +1,17 @@
 const request = require('supertest');
-const app = require('../../server'); 
+const server = require('../../server'); // Import the started server
 
 describe('POST /api/auth/signup', () => {
   it('should create a new user and return public profile', async () => {
     const userData = {
-      name: "Arissssu",
-      username: "arsissuu12",
-      email: "@exsample.com",
-      password: "Secsrett45!"
+      name: "Arissrrssu",
+      username: "arseirssuu12",
+      email: "@exsadmrple.com",
+      password: "Secssrertt45!"
     };
 
-    const res = await request(app)
-      .post('/api/auth/signup') 
+    const res = await request(server)
+      .post('/api/auth/signup')
       .send(userData)
       .expect(201);
 
@@ -29,5 +29,14 @@ describe('POST /api/auth/signup', () => {
     expect(
       res.headers['set-cookie'].some(cookie => cookie.startsWith('refreshToken'))
     ).toBe(true);
+  });
+
+  afterAll(async () => {
+    // Close the server if it's an HTTP server
+    if (server && typeof server.close === 'function') {
+      await server.close();
+    }
+    // If using mongoose or another DB library, disconnect here too:
+    // await mongoose.disconnect();
   });
 });
