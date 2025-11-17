@@ -1,9 +1,9 @@
-name: auth-workflow.yml
+name: auth-workflow
 
 on:
   push:
     branches:
-      - 'main'
+      - main
     paths:
       - '**.js'
 
@@ -17,9 +17,9 @@ jobs:
         ports:
           - 27017:27017
         options: >-
-          --health-cmd="mongosh --eval 'db.adminCommand(\"ping\")'" 
-          --health-interval=10s 
-          --health-timeout=5s 
+          --health-cmd="mongosh --eval 'db.adminCommand(\"ping\")'"
+          --health-interval=10s
+          --health-timeout=5s
           --health-retries=5
 
     steps:
@@ -32,10 +32,9 @@ jobs:
           node-version: 24
 
       - name: Install dependencies
+        working-directory: pace_696A
         run: npm install
 
-      - name: Start app
-        run: npm start &
-
       - name: Run tests
+        working-directory: pace_696A
         run: npm test
