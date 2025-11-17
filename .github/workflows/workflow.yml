@@ -1,11 +1,11 @@
-name: auth-workflow
+name: auth-workflow.yml
 
 on:
   push:
     branches:
-      - main
+      - 'main'
     paths:
-      - "**/*.js"
+      - '**.js'
 
 jobs:
   test:
@@ -17,32 +17,25 @@ jobs:
         ports:
           - 27017:27017
         options: >-
-          --health-cmd="mongosh --eval 'db.adminCommand(\"ping\")'"
-          --health-interval=10s
-          --health-timeout=5s
+          --health-cmd="mongosh --eval 'db.adminCommand(\"ping\")'" 
+          --health-interval=10s 
+          --health-timeout=5s 
           --health-retries=5
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Use Node.js 20
+      - name: Use Node.js 24
         uses: actions/setup-node@v3
         with:
-          node-version: 20
-          cache: "npm"
-          cache-dependency-path: pace_696A/package-lock.json
+          node-version: 24
 
       - name: Install dependencies
-        working-directory: ./pace_696A
-        run: npm ci
+        run: npm install
 
-      - name: Add test environment variables
-        working-directory: ./pace_696A
-        run: |
-          echo "MONGO_URI=mongodb://localhost:27017/testdb" >> .env
-          echo "PORT=8000" >> .env
+      - name: Start app
+        run: npm start &
 
       - name: Run tests
-        working-directory: ./pace_696A
-        run: npm test -- --detectOpenHandles
+        run: npm test
