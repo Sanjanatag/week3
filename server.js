@@ -10,7 +10,7 @@ const app = express();
 
 app.use(helmet());
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // CORS for cookies
@@ -34,9 +34,12 @@ app.use('/api/auth', authRoutes);
 app.use((err, req, res, next) => {
     console.error(err);
     const status = err.status || 500;
-    res.status(status).json({error: err.message || 'Server error'});
+    res.status(status).json({ error: err.message || 'Server error' });
 });
 
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`Server running on :${PORT}`));
-module.exports = app;
+// Start server and **export server instance for cleanup**
+const server = app.listen(PORT, () => console.log(`Server running on :${PORT}`));
+
+// Export both app & server for tests
+module.exports = { app, server };

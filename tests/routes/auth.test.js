@@ -1,16 +1,17 @@
 const request = require('supertest');
-const server = require('../../server'); // Import the started server
+const { app, server } = require('../../server'); // Import both app and server
+const mongoose = require('mongoose'); // Import mongoose for cleanup
 
 describe('POST /api/auth/signup', () => {
   it('should create a new user and return public profile', async () => {
     const userData = {
-      name: "Arissrrssu",
-      username: "arseirssuu12",
-      email: "@exsadmrple.com",
-      password: "Secssrertt45!"
+      name: "Arissrrfssu",
+      username: "arsefirssuu12",
+      email: "@exsadmfrple.com",
+      password: "Secsfsrertt45!"
     };
 
-    const res = await request(server)
+    const res = await request(app)
       .post('/api/auth/signup')
       .send(userData)
       .expect(201);
@@ -32,11 +33,11 @@ describe('POST /api/auth/signup', () => {
   });
 
   afterAll(async () => {
-    // Close the server if it's an HTTP server
+    // Close the HTTP server to end your test process
     if (server && typeof server.close === 'function') {
       await server.close();
     }
-    // If using mongoose or another DB library, disconnect here too:
-    // await mongoose.disconnect();
+    // Disconnect mongoose to release DB handles
+    await mongoose.disconnect();
   });
 });
